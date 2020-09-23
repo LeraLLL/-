@@ -147,11 +147,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: white;
 
     p{
       margin: 0;
       font-weight: bold;
-      font-size: .8rem;
+      font-size: 1.2rem;
       line-height: 140%;
       text-align: center;
     }
@@ -162,7 +163,7 @@ export default {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 1rem;
+  grid-gap: .4rem;
   width: fit-content;
   height: fit-content;
   padding: .5rem;
@@ -178,6 +179,7 @@ export default {
   font-weight: bold;
   color: #696273;
   outline: none;
+  padding: .8rem;
 
   &.hide {
     background: transparent;

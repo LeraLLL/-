@@ -66,7 +66,8 @@ export default {
       counter: 0,
       victory: false,
       start: new Date(),
-      now: new Date()
+      now: new Date(),
+      move: {up: -4, left: -1, down: 4, right: 1}
     };
   },
   computed: {
@@ -86,29 +87,20 @@ export default {
     checkResult() {
       let result = 0;
       this.model.forEach((item, index) => {
-        item == this.cells[index] && result++;
+        item === this.cells[index] && result++;
       })
       if (result > 15) this.victory = true
     },
     moveCell(index) {
       let valueCell = this.cells[index];
-      if (this.cells[index - 1] == 0) {
-        this.cells[index] = 0;
-        this.cells[index - 1] = valueCell;
-        this.counter++
-      } else if (this.cells[index - 4] == 0) {
-        this.cells[index] = 0;
-        this.cells[index - 4] = valueCell;
-        this.counter++
-      } else if (this.cells[index + 1] == 0) {
-        this.cells[index] = 0;
-        this.cells[index + 1] = valueCell;
-        this.counter++
-      } else if (this.cells[index + 4] == 0) {
-        this.cells[index] = 0;
-        this.cells[index + 4] = valueCell;
-        this.counter++
-      }
+      Object.keys(this.move).forEach(key => {
+        const to = index + this.move[key]
+        if(this.cells[to]=== 0) {
+          this.cells[index] = 0;
+          this.cells[to] = valueCell;
+          this.counter++
+        }
+      })
       this.checkResult();
     },
     throwOff() {

@@ -16,7 +16,7 @@
 
     <div class="gameBox">
       <button
-          :class="`cell ${cell === 0 && 'hide'}`"
+          :class="`cell ${cell === 0 ? 'hide' : ''}`"
           @click="moveCell(index)"
           v-for="(cell, index) in cells"
           :key="index"
@@ -62,7 +62,6 @@ export default {
   data() {
     return {
       cells: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0],
-      model: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0],
       counter: 0,
       victory: false,
       start: new Date(),
@@ -82,12 +81,14 @@ export default {
   },
   methods: {
     shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+      const shuffleArray = array.sort(() => Math.random() - 0.5)
+      if(this.solvable(shuffleArray)) return array.sort(() => Math.random() - 0.5)
+      else this.shuffle(shuffleArray)
     },
     checkResult() {
       let result = 0;
-      this.model.forEach((item, index) => {
-        item === this.cells[index] && result++;
+      this.cells.forEach((item, index) => {
+        item === index+1 && result++;
       })
       if (result > 15) this.victory = true
     },
@@ -102,6 +103,11 @@ export default {
         }
       })
       this.checkResult();
+    },
+    solvable(array) {
+      for (var kDisorder = 0, i = 1, len = array.length-1; i < len; i++)
+        for (let j = i-1; j >= 0; j--) if (array[j] > array[i]) kDisorder++;
+      return !(kDisorder % 2);
     },
     throwOff() {
       this.victory = false
